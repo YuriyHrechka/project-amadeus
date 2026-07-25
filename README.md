@@ -229,9 +229,9 @@ The goal is not only to build an AI assistant, but to understand the engineering
 
 * [x] Project concept
 * [x] Architecture planning
-* [ ] FastAPI backend foundation
-* [ ] Database layer
-* [ ] Configuration system
+* [x] FastAPI backend foundation
+* [x] Database layer
+* [x] Configuration system
 
 ---
 
