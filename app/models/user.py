@@ -1,6 +1,8 @@
-from datetime import datetime, timezone
 from uuid import UUID, uuid4
+from sqlalchemy.sql import func
 from sqlmodel import SQLModel, Field
+from sqlalchemy import Column, DateTime
+from datetime import datetime
 
 
 class BaseUser(SQLModel):
@@ -14,5 +16,12 @@ class User(BaseUser, table=True):
 
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     hashed_password: str
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = Field(sa_column=Column(DateTime(timezone=True), server_default=func.now(), nullable=False))
+    updated_at: datetime = Field(
+        sa_column=Column(
+            DateTime(timezone=True),
+            server_default=func.now(),
+            onupdate=func.now(),
+            nullable=False,
+        )
+    )
