@@ -1,8 +1,12 @@
 from uuid import UUID, uuid4
-from sqlalchemy.sql import func
-from sqlmodel import SQLModel, Field
-from sqlalchemy import Column, DateTime
 from datetime import datetime
+from sqlalchemy.sql import func
+from typing import TYPE_CHECKING
+from sqlalchemy import Column, DateTime
+from sqlmodel import SQLModel, Field, Relationship
+
+if TYPE_CHECKING:
+    from app.models.conversation import Conversation
 
 
 class BaseUser(SQLModel):
@@ -25,3 +29,5 @@ class User(BaseUser, table=True):
             nullable=False,
         )
     )
+
+    conversations: list["Conversation"] = Relationship(back_populates="user")
