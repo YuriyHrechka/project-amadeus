@@ -33,10 +33,11 @@ class Settings(BaseSettings):
         provider_settings = getattr(self, self.LLM_PROVIDER, None)
 
         if provider_settings is None:
+            prefix = self.LLM_PROVIDER.upper()
             raise ValueError(
-                f"LLM_PROVIDER={self.LLM_PROVIDER!r}, but no matching configuration found. "
-                f"Set {self.LLM_PROVIDER.upper()}__API_KEY (and optionally "
-                f"{self.LLM_PROVIDER.upper()}__MODEL) in your .env file."
+                f"LLM_PROVIDER={self.LLM_PROVIDER!r}, but no {prefix}__* settings were found. "
+                f"Set at least one {prefix}__ variable (e.g. {prefix}__MODEL) in your .env file "
+                "to activate this provider."
             )
         return self
 
