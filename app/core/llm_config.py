@@ -1,0 +1,15 @@
+from pydantic import BaseModel, SecretStr
+
+
+class BaseLLMSettings(BaseModel):
+    """Fields shared by every provider-specific LLM settings class."""
+
+    timeout_seconds: float = 30
+    max_retries: int = 3
+
+
+class OpenAISettings(BaseLLMSettings):
+    """Configuration for the OpenAI provider."""
+
+    api_key: SecretStr
+    model: str = "gpt-5.4-mini"
