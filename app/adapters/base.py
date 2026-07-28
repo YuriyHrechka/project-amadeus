@@ -28,7 +28,7 @@ class LLMAuthenticationError(LLMError):
 
 
 class LLMConnectionError(LLMError):
-    """Raised when unable to connect to LLM"""
+    """Raised when the LLM provider cannot be reached."""
 
 
 class LLMAdapter(ABC):
