@@ -27,6 +27,10 @@ class LLMAuthenticationError(LLMError):
     """Raised when the LLM provider rejects the API key."""
 
 
+class LLMConnectionError(LLMError):
+    """Raised when unable to connect to LLM"""
+
+
 class LLMAdapter(ABC):
     """Provider-agnostic interface for talking to an LLM.
 

@@ -1,7 +1,7 @@
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
-from app.adapters.base import LLMAuthenticationError, LLMError, LLMRateLimitError, LLMTimeoutError
+from app.adapters.base import LLMAuthenticationError, LLMError, LLMRateLimitError, LLMTimeoutError, LLMConnectionError
 
 
 async def llm_error_handler(request: Request, exc: LLMError) -> JSONResponse:
@@ -11,6 +11,8 @@ async def llm_error_handler(request: Request, exc: LLMError) -> JSONResponse:
         status_code = 429
     elif isinstance(exc, LLMAuthenticationError):
         status_code = 500
+    elif isinstance(exc, LLMConnectionError):
+        status_code = 503
     else:
         status_code = 502
 
