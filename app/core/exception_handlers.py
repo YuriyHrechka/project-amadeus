@@ -1,7 +1,7 @@
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
-from app.adapters.base import LLMAuthenticationError, LLMError, LLMRateLimitError, LLMTimeoutError, LLMConnectionError
+from app.adapters.base import LLMAuthenticationError, LLMConnectionError, LLMError, LLMRateLimitError, LLMTimeoutError
 
 
 async def llm_error_handler(request: Request, exc: LLMError) -> JSONResponse:
