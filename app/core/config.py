@@ -3,7 +3,7 @@ from typing import Literal, Optional
 from pydantic import computed_field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from app.core.llm_config import OpenAISettings
+from app.core.llm_config import OpenAISettings, OllamaSettings
 
 
 class Settings(BaseSettings):
@@ -23,8 +23,9 @@ class Settings(BaseSettings):
     DB_NAME: str
 
     # AI settings
-    LLM_PROVIDER: Literal["openai"] = "openai"
+    LLM_PROVIDER: Literal["openai", "ollama"] = "openai"
     openai: Optional[OpenAISettings] = None
+    Optional[OllamaSettings] = None
 
     @model_validator(mode="after")
     def validate_active_provider_settings(self) -> "Settings":

@@ -13,3 +13,10 @@ class OpenAISettings(BaseLLMSettings):
 
     api_key: SecretStr
     model: str = "gpt-5.4-mini"
+
+
+class OllamaSettings(BaseLLMSettings):
+    """Configuration for the Ollama provider."""
+
+    host: str = "http://localhost:11434"
+    model: str = "qwen3.5:4b"
