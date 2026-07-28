@@ -1,10 +1,18 @@
 from fastapi import FastAPI
-from app.core.lifespan import lifespan
+
+from app.adapters.base import LLMError
+from app.api.chat import router as chat_router
 from app.core.config import settings
+from app.core.exception_handlers import llm_error_handler
+from app.core.lifespan import lifespan
 
 app = FastAPI(
     title=settings.PROJECT_NAME, version=settings.VERSION, description="Voice Assistant API", lifespan=lifespan
 )
+
+app.add_exception_handler(LLMError, llm_error_handler)
+
+app.include_router(chat_router)
 
 
 @app.get("/ping")
