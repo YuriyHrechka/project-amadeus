@@ -28,5 +28,16 @@ services:
     volumes:
       - .:/app
 
+  # Optional, only starts with: docker-compose --profile ollama up
+  ollama:
+    image: ollama/ollama:latest
+    restart: always
+    profiles: ["ollama"]
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+
 volumes:
   postgres_data:
+  ollama_data:
