@@ -20,3 +20,5 @@ class OllamaSettings(BaseLLMSettings):
 
     host: str = "http://localhost:11434"
     model: str = "qwen3.5:4b"
+    # Thinking mode adds a slow internal reasoning trace before the reply.
+    think: bool = False

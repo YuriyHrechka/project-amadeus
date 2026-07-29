@@ -17,9 +17,12 @@ app.include_router(chat_router)
 
 @app.get("/ping")
 async def ping():
+    provider_settings = getattr(settings, settings.LLM_PROVIDER)
     return {
         "status": "ok",
         "message": "El Psy Kongroo",
         "version": settings.VERSION,
         "divergence_meter": settings.DIVERGENCE_METER,
+        "llm_provider": settings.LLM_PROVIDER,
+        "llm_model": provider_settings.model,
     }

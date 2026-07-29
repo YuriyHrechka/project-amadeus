@@ -19,9 +19,12 @@ from app.adapters.base import (
 
 def test_ping(client: TestClient) -> None:
     response = client.get("/ping")
+    body = response.json()
 
     assert response.status_code == 200
-    assert response.json()["status"] == "ok"
+    assert body["status"] == "ok"
+    assert body["llm_provider"] == "openai"
+    assert body["llm_model"]
 
 
 def test_chat_success(client: TestClient, mock_llm_adapter: AsyncMock) -> None:

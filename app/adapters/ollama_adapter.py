@@ -22,7 +22,12 @@ class OllamaAdapter(LLMAdapter):
 
     async def generate(self, messages: list[ChatMessage]) -> str:
         try:
-            payload = {"model": self.settings.model, "messages": [m.model_dump() for m in messages], "stream": False}
+            payload = {
+                "model": self.settings.model,
+                "messages": [m.model_dump() for m in messages],
+                "stream": False,
+                "think": self.settings.think,
+            }
             response = await self.client.post("api/chat", json=payload)
             response.raise_for_status()
         except httpx.ConnectError as e:
