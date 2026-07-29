@@ -22,11 +22,25 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    # Lets the container reach Ollama on the host machine (also on Linux, not just Docker Desktop).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       db:
         condition: service_healthy
     volumes:
       - .:/app
 
+  # Optional, only starts with: docker-compose --profile ollama up
+  ollama:
+    image: ollama/ollama:latest
+    restart: always
+    profiles: ["ollama"]
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+
 volumes:
   postgres_data:
+  ollama_data:

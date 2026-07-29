@@ -1,9 +1,10 @@
-from uuid import UUID, uuid4
 from datetime import datetime
-from sqlalchemy.sql import func
+from typing import TYPE_CHECKING, Optional
+from uuid import UUID, uuid4
+
 from sqlalchemy import Column, DateTime
-from typing import Optional, TYPE_CHECKING
-from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy.sql import func
+from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
     from app.models.user import User
