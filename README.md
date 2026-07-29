@@ -237,8 +237,8 @@ The goal is not only to build an AI assistant, but to understand the engineering
 
 ## AI Core
 
-* [ ] LLM integration
-* [ ] LLM Adapter implementation
+* [x] LLM integration
+* [x] LLM Adapter implementation
 * [ ] Conversation management
 * [ ] LangChain integration
 * [ ] Prompt management
