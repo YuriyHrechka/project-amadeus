@@ -13,8 +13,18 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
-def _run_and_get_adapter_class_name(llm_provider: str, extra_env: dict[str, str]) -> str:
-    code = "from app.adapters.dependencies import get_llm_adapter; print(type(get_llm_adapter()).__name__)"
+def _run_and_get_adapter_class_names(llm_provider: str, extra_env: dict[str, str]) -> tuple[str, str]:
+    """Returns (outer_class_name, inner_class_name) for the adapter the factory builds.
+
+    The factory now always wraps the provider adapter in `RetryingLLMAdapter`,
+    so `get_llm_adapter()` itself is never the provider class directly.
+    """
+    code = (
+        "from app.adapters.dependencies import get_llm_adapter; "
+        "adapter = get_llm_adapter(); "
+        "print(type(adapter).__name__); "
+        "print(type(adapter.inner_adapter).__name__)"
+    )
     env = {
         **os.environ,
         "DB_USER": "test",
@@ -33,14 +43,17 @@ def _run_and_get_adapter_class_name(llm_provider: str, extra_env: dict[str, str]
         timeout=30,
     )
     assert result.returncode == 0, f"subprocess failed:\nstdout={result.stdout}\nstderr={result.stderr}"
-    return result.stdout.strip()
+    outer_name, inner_name = result.stdout.strip().splitlines()
+    return outer_name, inner_name
 
 
 def test_factory_selects_openai_adapter() -> None:
-    class_name = _run_and_get_adapter_class_name("openai", {"OPENAI__API_KEY": "sk-test"})
-    assert class_name == "OpenAIAdapter"
+    outer_name, inner_name = _run_and_get_adapter_class_names("openai", {"OPENAI__API_KEY": "sk-test"})
+    assert outer_name == "RetryingLLMAdapter"
+    assert inner_name == "OpenAIAdapter"
 
 
 def test_factory_selects_ollama_adapter() -> None:
-    class_name = _run_and_get_adapter_class_name("ollama", {"OLLAMA__HOST": "http://localhost:11434"})
-    assert class_name == "OllamaAdapter"
+    outer_name, inner_name = _run_and_get_adapter_class_names("ollama", {"OLLAMA__HOST": "http://localhost:11434"})
+    assert outer_name == "RetryingLLMAdapter"
+    assert inner_name == "OllamaAdapter"
