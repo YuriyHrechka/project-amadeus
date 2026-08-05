@@ -239,9 +239,18 @@ The goal is not only to build an AI assistant, but to understand the engineering
 
 * [x] LLM integration
 * [x] LLM Adapter implementation
-* [ ] Conversation management
+* [x] Conversation management
 * [ ] LangChain integration
 * [ ] Prompt management
+
+---
+
+## Authentication & Users
+
+* [ ] User registration & login
+* [ ] Session/JWT-based auth
+* [ ] `get_current_user` dependency
+* [ ] Multi-user support wired into existing endpoints
 
 ---
 
