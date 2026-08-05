@@ -1,3 +1,7 @@
+from typing import Annotated
+
+from fastapi import Depends
+
 from app.adapters.base import LLMAdapter
 from app.adapters.ollama_adapter import OllamaAdapter
 from app.adapters.openai_adapter import OpenAIAdapter
@@ -18,3 +22,6 @@ _llm_adapter = RetryingLLMAdapter(_raw_adapter, _max_retries)
 
 def get_llm_adapter() -> LLMAdapter:
     return _llm_adapter
+
+
+LLMAdapterDep = Annotated[LLMAdapter, Depends(get_llm_adapter)]
