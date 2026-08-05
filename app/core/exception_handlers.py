@@ -2,6 +2,7 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 
 from app.adapters.base import LLMAuthenticationError, LLMConnectionError, LLMError, LLMRateLimitError, LLMTimeoutError
+from app.services.conversation_service import ConversationNotFoundError
 
 
 async def llm_error_handler(request: Request, exc: LLMError) -> JSONResponse:
@@ -17,3 +18,7 @@ async def llm_error_handler(request: Request, exc: LLMError) -> JSONResponse:
         status_code = 502
 
     return JSONResponse(status_code=status_code, content={"detail": str(exc)})
+
+
+async def conversation_not_found_handler(request: Request, exc: ConversationNotFoundError) -> JSONResponse:
+    return JSONResponse(status_code=404, content={"detail": str(exc)})
